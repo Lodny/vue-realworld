@@ -10,7 +10,6 @@
 import ArticlePreview from '../components/ArticlePreview';
 
 export default {
-  name: 'home',
   components: {
     ArticlePreview,
   },
@@ -21,13 +20,12 @@ export default {
     };
   },
   mounted() {
-    console.log('HomeMyFeed : mounted : ');
+    console.log('ProfileFavoritedArticle : mounted() : ', this.$route.params);
     this.$store
-      .dispatch('getMyFeedArticles')
+      .dispatch('getFavoritedArticles', this.$route.params.username)
       .then((data) => (this.articles = data))
-      .catch((error) => (this.errors = error));
+      .catch((data) => (this.errors = data));
   },
-  computed: {},
 };
 </script>
 

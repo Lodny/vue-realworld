@@ -61,33 +61,21 @@ export default {
   name: 'home',
   data() {
     return {
-      // selectedTag: null,
-      articles: null,
+      tags: null,
       errors: null,
     };
   },
   mounted() {
     console.log('Home : mounted() : ');
-    this.$store
-      .dispatch('getGlobal')
-      .then((data) => (this.articles = data))
-      .catch((errors) => (this.errors = errors));
 
-    this.$store.dispatch('getTags');
+    this.$store
+      .dispatch('getTags')
+      .then((data) => (this.tags = data))
+      .catch((errors) => (this.errors = errors));
   },
   components: {},
   computed: {
     ...mapGetters(['isAuthenticated']),
-    // ...mapGetters(["isAuthenticated", "tags"]),
-
-    // isAuthenticated() {
-    //   console.log('> Home : computed/isAuthenticated : ', this.$store.state.user.user);
-    //   return this.$store.state.user;
-    // },
-    tags() {
-      console.log('> Home : computec/tags : ', this.$store.state.tags);
-      return this.$store.state.tags;
-    },
     selectedTag() {
       console.log('> Home : computec/selectedTag : ', this.$route.params.tag);
       return this.$route.params.tag;

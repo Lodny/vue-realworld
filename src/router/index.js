@@ -36,17 +36,14 @@ export default new Router({
       path: '/register',
       component: () => import('@/views/Register'),
     },
-    // after login
-    {
-      path: '/editor/:slug?',
-      name: 'article-edit',
-      component: () => import('@/views/Editor'),
-    },
     {
       path: '/settings',
       name: 'settings',
       component: () => import('@/views/Settings'),
     },
+    // Handle child routes with a default, by giving the name to the
+    // child.
+    // SO: https://github.com/vuejs/vue-router/issues/777
     {
       path: '/@:username',
       // name: '/@:username',
@@ -55,14 +52,26 @@ export default new Router({
         {
           path: '',
           name: 'profile',
-          component: () => import('@/views/ProfileArticles'),
+          component: () => import('@/views/ProfileMyArticle'),
         },
         {
           path: 'favorites',
-          name: 'profile-favorites',
-          component: () => import('@/views/ProfileFavorites'),
+          name: 'profile-favorite',
+          component: () => import('@/views/ProfileFavoritedArticle'),
         },
       ],
+    },
+    {
+      path: '/articles/:slug',
+      name: 'article',
+      props: true,
+      component: () => import('@/views/Article'),
+    },
+    {
+      path: '/editor/:slug?',
+      name: 'article-edit',
+      props: true,
+      component: () => import('@/views/ArticleEdit'),
     },
   ],
 });

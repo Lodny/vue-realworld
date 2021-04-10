@@ -1,20 +1,33 @@
 <template>
-  <h1>Global Articles</h1>
+  <div>
+    <template v-for="article in articles">
+      <ArticlePreview :key="article.id" :article="article" />
+    </template>
+  </div>
 </template>
 
 <script>
+import ArticlePreview from '../components/ArticlePreview';
+
 export default {
   name: 'home',
-  created() {
-    console.log('HomeGlobal : created : ');
-    this.$store.dispatch('getGlobal');
+  components: {
+    ArticlePreview,
   },
-  computed: {
-    global() {
-      console.log('HomeGlobal : computed/global : ', this.$store.articles.length);
-      return this.$store.articles;
-    },
+  data() {
+    return {
+      articles: null,
+      errors: null,
+    };
   },
+  mounted() {
+    console.log('HomeGlobal : mounted : ');
+    this.$store
+      .dispatch('getGlobalArticles')
+      .then((data) => (this.articles = data))
+      .catch((error) => (this.errors = error));
+  },
+  computed: {},
 };
 </script>
 

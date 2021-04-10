@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { getHeader } from '../common/util';
 
 const state = {
   user: null,
@@ -130,22 +131,15 @@ const actions = {
       };
 
       console.log('store/user : actions/update : ', context.state.user?.token);
-
-      const header = {
-        headers: {
-          'content-type': 'application/json;charset=UTF-8',
-          'Access-Control-Allow-Headers': 'authorization',
-          authorization: `Token ${context.state.user?.token}`,
-        },
-      };
-
       axios
-        .put(url, body, header)
+        .put(url, body, getHeader(context.rootState.user.user))
         .then((res) => success(res.data))
         .catch((err) => fail(err?.response || err?.request || err.message));
     });
   },
 };
+
+const computed = {};
 
 const getters = {
   currentUser(state) {
@@ -156,18 +150,4 @@ const getters = {
   },
 };
 
-export default { state, mutations, actions, getters };
-
-// export default {
-//   namespaced: true,
-//   state: {
-//     user: null,
-//     errors: null,
-//   },
-//   mutations: {
-
-//   },
-//   actions: {
-
-//   },
-// };
+export default { state, mutations, actions, computed, getters };

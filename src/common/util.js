@@ -11,3 +11,20 @@ export const getErrorList = (errors) => {
 
   return errlist;
 };
+
+export const getHeader = (user) => {
+  if (user)
+    return {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+        'Access-Control-Allow-Headers': 'authorization',
+        authorization: `Token ${user.token}`,
+      },
+    };
+  else
+    return {
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+      },
+    };
+};
