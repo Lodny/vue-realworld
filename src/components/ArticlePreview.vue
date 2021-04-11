@@ -17,10 +17,10 @@
         </div>
         <button
           class="btn btn-sm pull-xs-right"
-          :class="[article.favorited ? 'btn-primary' : 'btn-outline-primary']"
+          :class="[favorited ? 'btn-primary' : 'btn-outline-primary']"
           @click="favorite(article.slug)"
         >
-          <i class="ion-heart"></i> {{ article.favoritesCount }}
+          <i class="ion-heart"></i> {{ favoritesCount }}
         </button>
       </div>
       <router-link :to="{ name: 'article', params: { slug: article.slug } }" class="preview-link">
@@ -34,9 +34,6 @@
         </ul>
       </router-link>
     </template>
-    <!-- <template if-else>
-      'loading...'
-    </template> -->
   </div>
 </template>
 
@@ -52,8 +49,15 @@ export default {
   },
   data() {
     return {
+      favorited: false,
+      favoritesCount: 0,
       errors: null,
     };
+  },
+  mounted() {
+    this.favorited = this.article.favorited;
+    this.favoritesCount = this.article.favoritesCount;
+    // console.log('ArticlePreview : mounted() :', this.article);
   },
   computed: {
     ...mapGetters(['isAuthenticated']),
@@ -66,7 +70,10 @@ export default {
 
       this.$store
         .dispatch('favorite', slug)
-        .then((data) => (this.article = data))
+        .then((data) => {
+          this.favorited = data?.favorited;
+          this.favoritesCount = data?.favoritesCount;
+        })
         .catch((data) => (this.errors = data));
     },
   },
