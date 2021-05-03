@@ -21,10 +21,21 @@ export default {
   },
   mounted() {
     console.log('ProfileMyArticle : mounted() : ', this.$route.params);
-    this.$store
-      .dispatch('getMyArticles', this.$route.params.username)
-      .then((data) => (this.articles = data))
-      .catch((data) => (this.errors = data));
+    this.getMyArticles();
+  },
+  watch: {
+    $route(to) {
+      console.log('ProfileMyArticle : watch/$route(to) : ', to.params);
+      this.getMyArticles();
+    },
+  },
+  methods: {
+    getMyArticles() {
+      this.$store
+        .dispatch('getMyArticles', this.$route.params.username)
+        .then((data) => (this.articles = data))
+        .catch((data) => (this.errors = data));
+    },
   },
 };
 </script>

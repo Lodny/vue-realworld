@@ -62,14 +62,17 @@ export default {
       article: { tagList: [] },
       tag: '',
       errors: null,
+      slug: null,
     };
   },
   mounted() {
     console.log('Editor : mounted() :', this.$route.params);
 
     if (this.$route.params?.slug) {
+      this.slug = this.$route.params.slug;
+
       this.$store
-        .dispatch('getArticle', this.$route.params.slug)
+        .dispatch('getArticle', this.slug)
         .then((data) => (this.article = data))
         .catch((data) => (this.errors = data));
     }
@@ -92,9 +95,17 @@ export default {
     },
     addArticle() {
       console.log('Editor : metods/addArticle() :', this.article);
+      console.log('Editor : metods/addArticle() : slug : ', this.slug);
+
+      let type = 'addArticle';
+      let payload = this.article;
+      if (this.slug) {
+        type = 'updateArticle';
+        payload = { slug: this.slug, article: this.article };
+      }
 
       this.$store
-        .dispatch('addArticle', this.article)
+        .dispatch(type, payload)
         .then((data) => this.$router.push({ name: 'article', params: { slug: data.slug } }))
         .catch((data) => (this.errors = data));
     },

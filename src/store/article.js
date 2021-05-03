@@ -52,6 +52,30 @@ const actions = {
         .catch((err) => fail(err?.response || err?.request || err.message));
     });
   },
+  updateArticle(context, payload) {
+    console.log('store/article : actions/updateArticle() :', { article: { ...payload.article } });
+
+    return new Promise((resolve, reject) => {
+      const success = (data) => {
+        console.log('store/article : actions : success() : ', data);
+        resolve(data.article);
+      };
+
+      const fail = (err) => {
+        console.log('store/article : actions : fail() :', err);
+        if (err?.status) {
+          console.log('status & errors', err.status, err.data);
+          reject(err.data.errors);
+        }
+      };
+
+      const url = `http://localhost:8080/api/articles/${payload.slug}`;
+      axios
+        .put(url, { article: { ...payload.article } }, getHeader(context.rootState.user.user))
+        .then((res) => success(res.data))
+        .catch((err) => fail(err?.response || err?.request || err.message));
+    });
+  },
   getArticle(context, slug) {
     console.log('store/article : actions/getArticle() :', slug);
 
