@@ -46,7 +46,7 @@
           </form>
           <!-- Line break for logout button -->
           <hr />
-          <button @click="logout" class="btn btn-outline-danger">
+          <button @click="logout" class="btn btn-outline-danger pull-xs-left">
             Or click here to logout.
           </button>
         </div>

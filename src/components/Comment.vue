@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="comment">
     <form v-if="isAuthenticated" class="card comment-form">
       <div class="card-block">
         <textarea class="form-control" placeholder="Write a comment..." rows="3" v-model="body"></textarea>
@@ -57,8 +57,8 @@ export default {
 
     this.$store
       .dispatch('getComments', this.slug)
-      .then(data => (this.comments = data))
-      .catch(data => (this.errors = data));
+      .then((data) => (this.comments = data))
+      .catch((data) => (this.errors = data));
   },
   computed: {
     ...mapGetters(['isAuthenticated', 'currentUser']),
@@ -68,15 +68,15 @@ export default {
       console.log('Comment : methods/addComment() :', body);
       this.$store
         .dispatch('addComment', { slug, body })
-        .then(data => this.comments.push(data))
-        .catch(data => (this.errors = data));
+        .then((data) => this.comments.push(data))
+        .catch((data) => (this.errors = data));
     },
     deleteComment(slug, id) {
       console.log('Comment : methods/deleteComment() :', id);
       this.$store
         .dispatch('deleteComment', { slug, id })
-        .then(() => (this.comments = this.comments.filter(comment => comment.id !== id)))
-        .catch(data => (this.errors = data));
+        .then(() => (this.comments = this.comments.filter((comment) => comment.id !== id)))
+        .catch((data) => (this.errors = data));
     },
   },
 };
